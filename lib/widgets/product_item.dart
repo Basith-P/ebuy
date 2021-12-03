@@ -28,16 +28,20 @@ class ProductItem extends StatelessWidget {
         child: Container(
           color: Colors.white,
           child: GridTile(
-            child: Image.network(
-              imgURL,
-              fit: BoxFit.cover,
-            ),
+            child: Image.network(imgURL),
             footer: GridTileBar(
-              backgroundColor: Colors.black87,
-              title: Text(title),
+              backgroundColor: Colors.white.withOpacity(.95),
+              title: Text(
+                title,
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),
+                maxLines: 2,
+              ),
               trailing: IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.favorite_outline_rounded),
+                icon: Icon(
+                  Icons.favorite_outline_rounded,
+                  color: Colors.grey[800],
+                ),
               ),
             ),
           ),

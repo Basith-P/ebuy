@@ -20,7 +20,7 @@ class ProductOverviewPage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          // childAspectRatio: 1 / 1.2,
+          childAspectRatio: 1 / 1.1,
           mainAxisSpacing: 15,
           crossAxisSpacing: 15,
         ),
