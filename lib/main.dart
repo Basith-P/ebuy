@@ -21,7 +21,7 @@ class Ebuy extends StatelessWidget {
       title: 'ebuy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
       ),
       home: const ProductOverviewPage(),
     );

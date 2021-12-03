@@ -14,16 +14,32 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: GridTile(
-        child: Image.network(imgURL),
-        footer: GridTileBar(
-          backgroundColor: Colors.teal[900],
-          title: Text(title),
-          trailing: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.favorite_outline_rounded),
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          color: Colors.white,
+          child: GridTile(
+            child: Image.network(
+              imgURL,
+              fit: BoxFit.cover,
+            ),
+            footer: GridTileBar(
+              backgroundColor: Colors.black87,
+              title: Text(title),
+              trailing: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.favorite_outline_rounded),
+              ),
+            ),
           ),
         ),
       ),
