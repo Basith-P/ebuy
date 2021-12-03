@@ -10,8 +10,11 @@ class ProductOverviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ebuy'),
         centerTitle: true,
+        title: Text(
+          'ebuy',
+          style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.bold),
+        ),
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(15),
