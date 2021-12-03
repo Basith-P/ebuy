@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../config/routes.dart' as route;
+
 class ProductItem extends StatelessWidget {
   final String id;
   final String title;
@@ -28,7 +30,10 @@ class ProductItem extends StatelessWidget {
         child: Container(
           color: Colors.white,
           child: GridTile(
-            child: Image.network(imgURL),
+            child: GestureDetector(
+              onTap: () => Navigator.pushNamed(context, route.productDetailsPage, arguments: id),
+              child: Image.network(imgURL),
+            ),
             footer: GridTileBar(
               backgroundColor: Colors.white.withOpacity(.95),
               title: Text(

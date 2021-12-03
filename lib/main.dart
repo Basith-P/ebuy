@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-import 'pages/products_overview_page.dart';
+import 'provider/product_provider.dart';
+import 'config/routes.dart' as route;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,14 +19,18 @@ class Ebuy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ebuy',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.yellow,
-        fontFamily: 'Lato',
+    return ChangeNotifierProvider(
+      create: (ctx) => Products(),
+      child: MaterialApp(
+        title: 'ebuy',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.yellow,
+          fontFamily: 'Lato',
+        ),
+        onGenerateRoute: route.controller,
+        initialRoute: route.productOverviewPage,
       ),
-      home: const ProductOverviewPage(),
     );
   }
 }

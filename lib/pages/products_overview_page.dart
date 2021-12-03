@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/dummy_data/dummy_data.dart';
-import '/widgets/product_item.dart';
+import '../widgets/products_grid.dart';
 
 class ProductOverviewPage extends StatelessWidget {
   const ProductOverviewPage({Key? key}) : super(key: key);
@@ -16,23 +15,7 @@ class ProductOverviewPage extends StatelessWidget {
           style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(15),
-        itemCount: products.length,
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1 / 1.1,
-          mainAxisSpacing: 15,
-          crossAxisSpacing: 15,
-        ),
-        itemBuilder: (ctx, i) => ProductItem(
-          id: products[i].id,
-          title: products[i].title,
-          imgURL: products[i].imgURL,
-        ),
-      ),
+      body: const ProductsGrid(),
     );
   }
 }
