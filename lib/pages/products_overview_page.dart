@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/products_grid.dart';
 
-enum filterOptions { Favorites, All }
+enum filterOptions { favorites, all }
 
 class ProductOverviewPage extends StatefulWidget {
   const ProductOverviewPage({Key? key}) : super(key: key);
@@ -18,16 +18,20 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         centerTitle: true,
         title: Text(
           'ebuy',
-          style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.headline4!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
         ),
         actions: [
           PopupMenuButton(
             onSelected: (filterOptions value) {
               setState(() {
-                if (value == filterOptions.Favorites) {
+                if (value == filterOptions.favorites) {
                   _showFavonly = true;
                 } else {
                   _showFavonly = false;
@@ -36,8 +40,8 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
             },
             icon: const Icon(Icons.more_vert),
             itemBuilder: (_) => const [
-              PopupMenuItem(child: Text('Show favorites only'), value: filterOptions.Favorites),
-              PopupMenuItem(child: Text('Show all products'), value: filterOptions.All),
+              PopupMenuItem(child: Text('Show favorites only'), value: filterOptions.favorites),
+              PopupMenuItem(child: Text('Show all products'), value: filterOptions.all),
             ],
           )
         ],

@@ -72,7 +72,7 @@ class Products with ChangeNotifier {
     ),
     Product(
       id: 'p10',
-      title: 'Galaxy S21 5G',
+      title: 'Galaxy S21 5G ',
       desc:
           'Samsung Galaxy S21 5G (Phantom Gray, 8GB, 128GB Storage) with No Cost EMI/Additional Exchange Offers',
       price: 64990.00,

@@ -20,48 +20,100 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
 
-    return Container(
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: GestureDetector(
-        onTap: () => Navigator.pushNamed(context, route.productDetailsPage, arguments: product.id),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(5),
-          child: Container(
-            color: Colors.white,
-            child: GridTile(
-              child: Image.network(product.imgURL),
-              footer: GridTileBar(
-                  backgroundColor: Colors.white.withOpacity(.95),
-                  title: Text(
-                    product.title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(fontWeight: FontWeight.bold),
-                    maxLines: 2,
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, route.productDetailsPage, arguments: product.id),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.network(
+                    product.imgURL,
                   ),
-                  trailing: Consumer<Product>(
-                    builder: (ctx, product, _) => IconButton(
-                      onPressed: () {
-                        product.toggleFavStatus();
-                      },
-                      icon: Icon(
-                        product.isFav ? Icons.favorite_outlined : Icons.favorite_outline_rounded,
-                        color: product.isFav ? Colors.deepOrange : Colors.grey[800],
-                      ),
+                ),
+              ),
+              Container(
+                color: Colors.deepOrange.withOpacity(.1),
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  children: [
+                    Text(
+                      product.title,
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                     ),
-                  )),
-            ),
+                    Text(
+                      'Rs. ' + product.price.toString(),
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Consumer<Product>(
+                          builder: (ctx, product, _) => IconButton(
+                            padding: const EdgeInsets.all(0),
+                            onPressed: () {
+                              product.toggleFavStatus();
+                            },
+                            icon: Icon(
+                              product.isFav
+                                  ? Icons.favorite_outlined
+                                  : Icons.favorite_outline_rounded,
+                              // color: product.isFav ? Colors.deepOrange : Colors.grey[800],
+                              color: Colors.deepOrange.withOpacity(.8),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          padding: const EdgeInsets.all(0),
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.shopping_cart_outlined,
+                            color: Colors.deepOrange.withOpacity(.8),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
+
+
+/*
+GridTile(
+              child: Image.network(product.imgURL),
+              footer: Container(
+                padding: const EdgeInsets.all(10),
+                color: Colors.white.withOpacity(.95),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+*/
