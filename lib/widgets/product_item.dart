@@ -18,7 +18,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    final product = Provider.of<Product>(context, listen: false);
 
     return Container(
       decoration: const BoxDecoration(
@@ -38,23 +38,26 @@ class ProductItem extends StatelessWidget {
             child: GridTile(
               child: Image.network(product.imgURL),
               footer: GridTileBar(
-                backgroundColor: Colors.white.withOpacity(.95),
-                title: Text(
-                  product.title,
-                  style:
-                      Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),
-                  maxLines: 2,
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    product.toggleFavStatus();
-                  },
-                  icon: Icon(
-                    product.isFav ? Icons.favorite_outlined : Icons.favorite_outline_rounded,
-                    color: product.isFav ? Colors.deepOrange : Colors.grey[800],
+                  backgroundColor: Colors.white.withOpacity(.95),
+                  title: Text(
+                    product.title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontWeight: FontWeight.bold),
+                    maxLines: 2,
                   ),
-                ),
-              ),
+                  trailing: Consumer<Product>(
+                    builder: (ctx, product, _) => IconButton(
+                      onPressed: () {
+                        product.toggleFavStatus();
+                      },
+                      icon: Icon(
+                        product.isFav ? Icons.favorite_outlined : Icons.favorite_outline_rounded,
+                        color: product.isFav ? Colors.deepOrange : Colors.grey[800],
+                      ),
+                    ),
+                  )),
             ),
           ),
         ),
