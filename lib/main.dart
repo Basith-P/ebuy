@@ -25,7 +25,7 @@ class Ebuy extends StatelessWidget {
         title: 'ebuy',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.yellow,
+          primarySwatch: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
         onGenerateRoute: route.controller,

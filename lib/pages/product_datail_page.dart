@@ -1,4 +1,3 @@
-import 'package:ebuy/models/model_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
