@@ -7,11 +7,13 @@ const String productOverviewPage = 'prodOverview';
 const String productDetailsPage = 'prodDetails';
 
 Route<dynamic> controller(RouteSettings settings) {
+  final arguments = settings.arguments;
+
   switch (settings.name) {
     case productOverviewPage:
-      return MaterialPageRoute(builder: (context) => const ProductOverviewPage());
+      return MaterialPageRoute(builder: (_) => const ProductOverviewPage());
     case productDetailsPage:
-      return MaterialPageRoute(builder: (context) => const ProductDetailpage());
+      return MaterialPageRoute(builder: (_) => ProductDetailpage(data: arguments.toString()));
     default:
       throw ('This route does not exists');
   }

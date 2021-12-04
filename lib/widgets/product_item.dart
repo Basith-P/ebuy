@@ -25,27 +25,28 @@ class ProductItem extends StatelessWidget {
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Container(
-          color: Colors.white,
-          child: GridTile(
-            child: GestureDetector(
-              onTap: () => Navigator.pushNamed(context, route.productDetailsPage, arguments: id),
+      child: GestureDetector(
+        onTap: () => Navigator.pushNamed(context, route.productDetailsPage, arguments: id),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: Container(
+            color: Colors.white,
+            child: GridTile(
               child: Image.network(imgURL),
-            ),
-            footer: GridTileBar(
-              backgroundColor: Colors.white.withOpacity(.95),
-              title: Text(
-                title,
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),
-                maxLines: 2,
-              ),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.favorite_outline_rounded,
-                  color: Colors.grey[800],
+              footer: GridTileBar(
+                backgroundColor: Colors.white.withOpacity(.95),
+                title: Text(
+                  title,
+                  style:
+                      Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),
+                  maxLines: 2,
+                ),
+                trailing: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.favorite_outline_rounded,
+                    color: Colors.grey[800],
+                  ),
                 ),
               ),
             ),
