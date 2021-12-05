@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../widgets/badge.dart';
 import '../widgets/products_grid.dart';
+import '../provider/cart.dart';
+import '../config/routes.dart' as route;
 
 enum filterOptions { favorites, all }
 
@@ -18,7 +22,6 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
         centerTitle: true,
         title: Text(
           'ebuy',
@@ -43,6 +46,16 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
               PopupMenuItem(child: Text('Show favorites only'), value: filterOptions.favorites),
               PopupMenuItem(child: Text('Show all products'), value: filterOptions.all),
             ],
+          ),
+          Consumer<Cart>(
+            builder: (_, cart, ch) => Badge(
+              child: ch!,
+              value: cart.itemCount.toString(),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.shopping_cart_outlined),
+              onPressed: () => Navigator.pushNamed(context, route.cartPage),
+            ),
           )
         ],
       ),

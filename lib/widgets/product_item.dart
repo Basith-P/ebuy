@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../config/routes.dart' as route;
 import '../provider/model_product.dart';
+import '../provider/cart.dart';
 
 class ProductItem extends StatelessWidget {
   // final String id;
@@ -19,11 +20,12 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context);
 
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, route.productDetailsPage, arguments: product.id),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(10),
         child: Container(
           color: Colors.white,
           child: Column(
@@ -37,7 +39,7 @@ class ProductItem extends StatelessWidget {
                 ),
               ),
               Container(
-                color: Colors.deepOrange.withOpacity(.1),
+                color: Colors.blueGrey.withOpacity(.02),
                 padding: const EdgeInsets.all(15),
                 child: Column(
                   children: [
@@ -66,16 +68,18 @@ class ProductItem extends StatelessWidget {
                                   ? Icons.favorite_outlined
                                   : Icons.favorite_outline_rounded,
                               // color: product.isFav ? Colors.deepOrange : Colors.grey[800],
-                              color: Colors.deepOrange.withOpacity(.8),
+                              color: Colors.blueGrey,
                             ),
                           ),
                         ),
                         IconButton(
                           padding: const EdgeInsets.all(0),
-                          onPressed: () {},
-                          icon: Icon(
+                          onPressed: () {
+                            cart.addItem(product.id, product.title, product.price);
+                          },
+                          icon: const Icon(
                             Icons.shopping_cart_outlined,
-                            color: Colors.deepOrange.withOpacity(.8),
+                            color: Colors.blueGrey,
                           ),
                         ),
                       ],

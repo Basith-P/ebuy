@@ -18,7 +18,7 @@ class ProductDetailpage extends StatelessWidget {
         title: Text(loadedProduct.title),
       ),
       body: Container(
-        child: Text(''),
+        child: Text(loadedProduct.isFav.toString()),
       ),
     );
   }
