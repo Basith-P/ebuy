@@ -22,14 +22,14 @@ class CartItem extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
+      margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: Container(
+        leading: SizedBox(
           width: 40,
           child: Image.network(imgUrl),
         ),
         title: Text(title),
-        subtitle: Text('Rs. $price    $quantity Pcs'),
+        subtitle: Text('Rs. $price    ${quantity}x'),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,

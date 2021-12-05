@@ -28,7 +28,7 @@ class CartPage extends StatelessWidget {
             ),
             margin: const EdgeInsets.all(15),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -36,11 +36,23 @@ class CartPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Total amount',
-                        style: TextStyle(fontSize: 16),
+                        'Total amount:',
+                        style: TextStyle(fontSize: 18),
                       ),
                       Chip(
                         label: Text('Rs. ${cart.totalAmount.toStringAsFixed(2)}'),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Total Items:',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Chip(
+                        label: Text(cart.items.length.toString()),
                       )
                     ],
                   ),
@@ -61,6 +73,8 @@ class CartPage extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(15),
               shrinkWrap: true,
               itemCount: cart.items.length,
               itemBuilder: (ctx, i) => CartItem(
