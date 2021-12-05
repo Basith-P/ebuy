@@ -75,7 +75,7 @@ class ProductItem extends StatelessWidget {
                         IconButton(
                           padding: const EdgeInsets.all(0),
                           onPressed: () {
-                            cart.addItem(product.id, product.title, product.price);
+                            cart.addItem(product.id, product.title, product.price, product.imgURL);
                           },
                           icon: const Icon(
                             Icons.shopping_cart_outlined,
