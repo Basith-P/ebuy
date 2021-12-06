@@ -31,10 +31,13 @@ class ProductItem extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.network(
-                    product.imgURL,
+                child: Hero(
+                  tag: product.id,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.network(
+                      product.imgURL,
+                    ),
                   ),
                 ),
               ),
