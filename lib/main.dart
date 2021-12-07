@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import 'provider/orders.dart';
 import 'provider/product_provider.dart';
 import 'provider/cart.dart';
 import 'config/routes.dart' as route;
@@ -29,6 +30,9 @@ class Ebuy extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => Cart(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => Orders(),
+        )
       ],
       child: MaterialApp(
         title: 'ebuy',
