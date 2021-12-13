@@ -5,6 +5,7 @@ import '../widgets/badge.dart';
 import '../widgets/products_grid.dart';
 import '../provider/cart.dart';
 import '../config/routes.dart' as route;
+import '../widgets/left_drawer.dart';
 
 enum filterOptions { favorites, all }
 
@@ -21,6 +22,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const LeftDrawer(),
       appBar: AppBar(
         centerTitle: true,
         title: Text(
