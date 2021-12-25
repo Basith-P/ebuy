@@ -11,10 +11,9 @@ class LeftDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text('Hello John'),
+            title: const Text('Hello John'),
             automaticallyImplyLeading: false,
           ),
-          const Divider(),
           ListTile(
             leading: const Icon(Icons.shop_outlined),
             title: const Text('Shop'),
@@ -29,7 +28,16 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacementNamed(context, route.ordersPage);
             },
-          )
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.edit_outlined),
+            title: const Text('Manage your products'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, route.userProductsPage);
+            },
+          ),
+          const Divider(),
         ],
       ),
     );
