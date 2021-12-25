@@ -19,7 +19,7 @@ class UserProductsPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, route.editProductPage);
+              Navigator.pushNamed(context, route.editProductPage);
             },
             icon: const Icon(Icons.add),
           ),

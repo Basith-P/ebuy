@@ -54,6 +54,7 @@ class ProductItem extends StatelessWidget {
                           ),
                     ),
                     Text(
+                      
                       'Rs. ' + product.price.toString(),
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
@@ -108,30 +109,3 @@ class ProductItem extends StatelessWidget {
     );
   }
 }
-
-
-/*
-GridTile(
-              child: Image.network(product.imgURL),
-              footer: Container(
-                padding: const EdgeInsets.all(10),
-                color: Colors.white.withOpacity(.95),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-*/
