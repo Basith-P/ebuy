@@ -85,7 +85,7 @@ class Products with ChangeNotifier {
   }
 
   List<Product> get favItems {
-    return _items.where((element) => element.isFav).toList();
+    return _items.where((element) => element.isFav == true).toList();
   }
 
   Product findById(String id) {
@@ -101,6 +101,21 @@ class Products with ChangeNotifier {
       imgURL: product.imgURL,
     );
     _items.add(newProduct);
+    notifyListeners();
+  }
+
+  void updateProduct(String id, Product newProd) {
+    final prodIndex = _items.indexWhere((element) => element.id == id);
+    if (prodIndex >= 0) {
+      _items[prodIndex] = newProd;
+      notifyListeners();
+    } else {
+      print('...');
+    }
+  }
+
+  void deleteProd(String id) {
+    _items.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 }

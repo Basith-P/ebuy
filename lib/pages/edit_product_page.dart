@@ -16,7 +16,7 @@ class _EditProductPageState extends State<EditProductPage> {
   final _imgUrlFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   var _editedProduct = Product(
-    id: DateTime.now().toString(),
+    id: '',
     title: '',
     desc: '',
     price: 0,
@@ -80,7 +80,12 @@ class _EditProductPageState extends State<EditProductPage> {
     final _isValid = _formKey.currentState!.validate();
     if (!_isValid) return;
     _formKey.currentState!.save();
-    Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    if (_editedProduct.id.isNotEmpty) {
+      Provider.of<Products>(context, listen: false)
+          .updateProduct(_editedProduct.id, _editedProduct);
+    } else {
+      Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    }
     Navigator.of(context).pop();
   }
 

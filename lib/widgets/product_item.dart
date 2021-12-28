@@ -54,7 +54,6 @@ class ProductItem extends StatelessWidget {
                           ),
                     ),
                     Text(
-                      
                       'Rs. ' + product.price.toString(),
                       style: Theme.of(context).textTheme.bodyText1,
                     ),

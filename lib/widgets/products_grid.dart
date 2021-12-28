@@ -14,6 +14,8 @@ class ProductsGrid extends StatelessWidget {
     final productsData = Provider.of<Products>(context);
     final productList = showFavonly ? productsData.favItems : productsData.items;
 
+    print(productsData.items[1].isFav);
+
     return GridView.builder(
       padding: const EdgeInsets.all(15),
       itemCount: productList.length,
