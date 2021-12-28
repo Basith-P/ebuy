@@ -19,7 +19,11 @@ class UserProductsPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, route.editProductPage);
+              Navigator.pushNamed(
+                context,
+                route.editProductPage,
+                arguments: 'addProd',
+              );
             },
             icon: const Icon(Icons.add),
           ),
@@ -32,6 +36,7 @@ class UserProductsPage extends StatelessWidget {
           itemBuilder: (_, i) => Column(
             children: [
               UserProductItem(
+                productsData.items[i].id,
                 productsData.items[i].title,
                 productsData.items[i].imgURL,
               ),

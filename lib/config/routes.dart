@@ -29,7 +29,7 @@ Route<dynamic> controller(RouteSettings settings) {
     case userProductsPage:
       return MaterialPageRoute(builder: (_) => const UserProductsPage());
     case editProductPage:
-      return MaterialPageRoute(builder: (_) => EditProductPage());
+      return MaterialPageRoute(builder: (_) => EditProductPage(arguments.toString()));
     default:
       throw ('This route does not exists');
   }

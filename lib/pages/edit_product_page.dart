@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../provider/model_product.dart';
+import '../provider/product_provider.dart';
 
 class EditProductPage extends StatefulWidget {
+  final String data;
+  EditProductPage(this.data, {Key? key}) : super(key: key);
   @override
   _EditProductPageState createState() => _EditProductPageState();
 }
@@ -18,11 +22,37 @@ class _EditProductPageState extends State<EditProductPage> {
     price: 0,
     imgURL: '',
   );
+  var _initValues = {
+    'title': '',
+    'desc': '',
+    'price': '',
+    'imgUrl': '',
+  };
+  bool _isInit = true;
 
   @override
   void initState() {
-    _imgUrlFocusNode.addListener(_updateImageUrl);
     super.initState();
+    _imgUrlFocusNode.addListener(_updateImageUrl);
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final prodId = (widget.data == 'addProd') ? null : widget.data;
+      print('\n\n\nproduct id = $prodId\n\n\n');
+      if (prodId != null) {
+        _editedProduct = Provider.of<Products>(context, listen: false).findById(prodId);
+        _initValues = {
+          'title': _editedProduct.title,
+          'desc': _editedProduct.desc,
+          'price': _editedProduct.price.toString(),
+          'imgUrl': _editedProduct.imgURL,
+        };
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override
@@ -50,7 +80,8 @@ class _EditProductPageState extends State<EditProductPage> {
     final _isValid = _formKey.currentState!.validate();
     if (!_isValid) return;
     _formKey.currentState!.save();
-    print(_editedProduct.title);
+    Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    Navigator.of(context).pop();
   }
 
   @override

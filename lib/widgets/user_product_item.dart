@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../config/routes.dart' as route;
+
 class UserProductItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imgUrl;
 
-  const UserProductItem(this.title, this.imgUrl);
+  const UserProductItem(this.id, this.title, this.imgUrl);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,11 @@ class UserProductItem extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(
+                context,
+                route.editProductPage,
+                arguments: id,
+              ),
               icon: Icon(
                 Icons.edit_outlined,
                 color: Theme.of(context).colorScheme.primary,
