@@ -29,6 +29,7 @@ class _EditProductPageState extends State<EditProductPage> {
     'imgUrl': '',
   };
   bool _isInit = true;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -80,13 +81,26 @@ class _EditProductPageState extends State<EditProductPage> {
     final _isValid = _formKey.currentState!.validate();
     if (!_isValid) return;
     _formKey.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
     if (_editedProduct.id.isNotEmpty) {
       Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pop();
     } else {
-      Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+      Provider.of<Products>(context, listen: false).addProduct(_editedProduct).then(
+        (_) {
+          setState(() {
+            _isLoading = false;
+          });
+          Navigator.of(context).pop();
+        },
+      );
     }
-    Navigator.of(context).pop();
   }
 
   @override
@@ -101,110 +115,62 @@ class _EditProductPageState extends State<EditProductPage> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(22).copyWith(top: 30),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: [
-                TextFormField(
-                  initialValue: _initValues['title'],
-                  decoration: const InputDecoration(
-                    label: Text('Title'),
-                    border: OutlineInputBorder(),
-                  ),
-                  textInputAction: TextInputAction.next,
-                  validator: (value) {
-                    if (value == '') {
-                      return 'Please enter a title';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _editedProduct = Product(
-                      id: _editedProduct.id,
-                      title: value!,
-                      desc: _editedProduct.desc,
-                      price: _editedProduct.price,
-                      imgURL: _editedProduct.imgURL,
-                    );
-                  },
-                ),
-                const SizedBox(height: 18),
-                TextFormField(
-                  initialValue: _initValues['price'],
-                  decoration: const InputDecoration(
-                    label: Text('Price'),
-                    border: OutlineInputBorder(),
-                  ),
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == '') return 'Please enter a value';
-                    if (double.tryParse(value!) == null) return 'Please enter a valid number';
-                    if (double.parse(value) <= 0) return 'Price should be greater than zero!';
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _editedProduct = Product(
-                      id: _editedProduct.id,
-                      title: _editedProduct.title,
-                      desc: _editedProduct.desc,
-                      price: double.parse(value!),
-                      imgURL: _editedProduct.imgURL,
-                    );
-                  },
-                ),
-                const SizedBox(height: 18),
-                TextFormField(
-                  initialValue: _initValues['desc'],
-                  decoration: const InputDecoration(
-                    label: Text('Description'),
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 5,
-                  validator: (value) {
-                    if (value!.length < 20) {
-                      return 'Description should be at leaset 20 charecters long';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _editedProduct = Product(
-                      id: _editedProduct.id,
-                      title: _editedProduct.title,
-                      desc: value!,
-                      price: _editedProduct.price,
-                      imgURL: _editedProduct.imgURL,
-                    );
-                  },
-                ),
-                const SizedBox(height: 18),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: TextFormField(
+      body: _isLoading
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 10),
+                  Text('Please wait...'),
+                  SizedBox(height: 100),
+                ],
+              ),
+            )
+          : SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(22).copyWith(top: 30),
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      TextFormField(
+                        initialValue: _initValues['title'],
                         decoration: const InputDecoration(
-                          label: Text('Image URL'),
+                          label: Text('Title'),
                           border: OutlineInputBorder(),
                         ),
-                        controller: _imgUrlcontroller,
-                        keyboardType: TextInputType.url,
-                        maxLines: 3,
-                        textInputAction: TextInputAction.done,
-                        focusNode: _imgUrlFocusNode,
+                        textInputAction: TextInputAction.next,
                         validator: (value) {
-                          if (value == '') return 'Please enter a URL';
-                          if (!value!.startsWith('http') ||
-                              (!value.endsWith('png') &&
-                                  !value.endsWith('jpg') &&
-                                  !value.endsWith('jpeg'))) {
-                            return 'Please enter a valid image URL';
+                          if (value == '') {
+                            return 'Please enter a title';
                           }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _editedProduct = Product(
+                            id: _editedProduct.id,
+                            title: value!,
+                            desc: _editedProduct.desc,
+                            price: _editedProduct.price,
+                            imgURL: _editedProduct.imgURL,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 18),
+                      TextFormField(
+                        initialValue: _initValues['price'],
+                        decoration: const InputDecoration(
+                          label: Text('Price'),
+                          border: OutlineInputBorder(),
+                        ),
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == '') return 'Please enter a value';
+                          if (double.tryParse(value!) == null) return 'Please enter a valid number';
+                          if (double.parse(value) <= 0) return 'Price should be greater than zero!';
                           return null;
                         },
                         onSaved: (value) {
@@ -212,43 +178,103 @@ class _EditProductPageState extends State<EditProductPage> {
                             id: _editedProduct.id,
                             title: _editedProduct.title,
                             desc: _editedProduct.desc,
-                            price: _editedProduct.price,
-                            imgURL: value!,
+                            price: double.parse(value!),
+                            imgURL: _editedProduct.imgURL,
                           );
                         },
                       ),
-                    ),
-                    Container(
-                      width: 100,
-                      height: 100,
-                      margin: const EdgeInsets.only(left: 18),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(4),
+                      const SizedBox(height: 18),
+                      TextFormField(
+                        initialValue: _initValues['desc'],
+                        decoration: const InputDecoration(
+                          label: Text('Description'),
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 5,
+                        validator: (value) {
+                          if (value!.length < 20) {
+                            return 'Description should be at leaset 20 charecters long';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _editedProduct = Product(
+                            id: _editedProduct.id,
+                            title: _editedProduct.title,
+                            desc: value!,
+                            price: _editedProduct.price,
+                            imgURL: _editedProduct.imgURL,
+                          );
+                        },
                       ),
-                      child: _imgUrlcontroller.text.isEmpty
-                          ? const Center(
-                              child: Text(
-                                'Image\npreview',
-                                textAlign: TextAlign.center,
+                      const SizedBox(height: 18),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                label: Text('Image URL'),
+                                border: OutlineInputBorder(),
                               ),
-                            )
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(3),
-                              child: Image.network(
-                                _imgUrlcontroller.text,
-                                // fit: BoxFit.contain,
-                              ),
+                              controller: _imgUrlcontroller,
+                              keyboardType: TextInputType.url,
+                              maxLines: 3,
+                              textInputAction: TextInputAction.done,
+                              focusNode: _imgUrlFocusNode,
+                              validator: (value) {
+                                if (value == '') return 'Please enter a URL';
+                                if (!value!.startsWith('http') ||
+                                    (!value.endsWith('png') &&
+                                        !value.endsWith('jpg') &&
+                                        !value.endsWith('jpeg'))) {
+                                  return 'Please enter a valid image URL';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _editedProduct = Product(
+                                  id: _editedProduct.id,
+                                  title: _editedProduct.title,
+                                  desc: _editedProduct.desc,
+                                  price: _editedProduct.price,
+                                  imgURL: value!,
+                                );
+                              },
                             ),
-                    ),
-                  ],
+                          ),
+                          Container(
+                            width: 100,
+                            height: 100,
+                            margin: const EdgeInsets.only(left: 18),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: _imgUrlcontroller.text.isEmpty
+                                ? const Center(
+                                    child: Text(
+                                      'Image\npreview',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(3),
+                                    child: Image.network(
+                                      _imgUrlcontroller.text,
+                                      // fit: BoxFit.contain,
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

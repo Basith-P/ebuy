@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'model_product.dart';
 
@@ -92,16 +95,30 @@ class Products with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
-  void addProduct(Product product) {
-    final newProduct = Product(
-      id: DateTime.now().toString(),
-      title: product.title,
-      price: product.price,
-      desc: product.desc,
-      imgURL: product.imgURL,
-    );
-    _items.add(newProduct);
-    notifyListeners();
+  Future<void> addProduct(Product product) async {
+    const url = 'https://ebuy-007-default-rtdb.firebaseio.com/products.json';
+    return http
+        .post(
+      Uri.parse(url),
+      body: json.encode({
+        'title': product.title,
+        'price': product.price,
+        'desc': product.desc,
+        'imgURL': product.imgURL,
+        'isFav': product.isFav,
+      }),
+    )
+        .then((response) {
+      final newProduct = Product(
+        id: json.decode(response.body)['name'],
+        title: product.title,
+        price: product.price,
+        desc: product.desc,
+        imgURL: product.imgURL,
+      );
+      _items.add(newProduct);
+      notifyListeners();
+    });
   }
 
   void updateProduct(String id, Product newProd) {
