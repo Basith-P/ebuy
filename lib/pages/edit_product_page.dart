@@ -40,15 +40,15 @@ class _EditProductPageState extends State<EditProductPage> {
   void didChangeDependencies() {
     if (_isInit) {
       final prodId = (widget.data == 'addProd') ? null : widget.data;
-      print('\n\n\nproduct id = $prodId\n\n\n');
       if (prodId != null) {
         _editedProduct = Provider.of<Products>(context, listen: false).findById(prodId);
         _initValues = {
           'title': _editedProduct.title,
           'desc': _editedProduct.desc,
           'price': _editedProduct.price.toString(),
-          'imgUrl': _editedProduct.imgURL,
+          // 'imgUrl': _editedProduct.imgURL,
         };
+        _imgUrlcontroller.text = _editedProduct.imgURL;
       }
     }
     _isInit = false;
@@ -105,6 +105,7 @@ class _EditProductPageState extends State<EditProductPage> {
               physics: const BouncingScrollPhysics(),
               children: [
                 TextFormField(
+                  initialValue: _initValues['title'],
                   decoration: const InputDecoration(
                     label: Text('Title'),
                     border: OutlineInputBorder(),
@@ -128,6 +129,7 @@ class _EditProductPageState extends State<EditProductPage> {
                 ),
                 const SizedBox(height: 18),
                 TextFormField(
+                  initialValue: _initValues['price'],
                   decoration: const InputDecoration(
                     label: Text('Price'),
                     border: OutlineInputBorder(),
@@ -152,6 +154,7 @@ class _EditProductPageState extends State<EditProductPage> {
                 ),
                 const SizedBox(height: 18),
                 TextFormField(
+                  initialValue: _initValues['desc'],
                   decoration: const InputDecoration(
                     label: Text('Description'),
                     border: OutlineInputBorder(),
@@ -159,8 +162,9 @@ class _EditProductPageState extends State<EditProductPage> {
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
                   validator: (value) {
-                    if (value!.length < 20)
+                    if (value!.length < 20) {
                       return 'Description should be at leaset 20 charecters long';
+                    }
                     return null;
                   },
                   onSaved: (value) {
@@ -214,6 +218,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       height: 100,
                       margin: const EdgeInsets.only(left: 18),
                       decoration: BoxDecoration(
+                        color: Colors.white,
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(4),
                       ),
@@ -228,7 +233,7 @@ class _EditProductPageState extends State<EditProductPage> {
                               borderRadius: BorderRadius.circular(3),
                               child: Image.network(
                                 _imgUrlcontroller.text,
-                                fit: BoxFit.cover,
+                                // fit: BoxFit.contain,
                               ),
                             ),
                     ),
