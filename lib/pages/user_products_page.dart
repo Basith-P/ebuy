@@ -39,7 +39,7 @@ class UserProductsPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             itemCount: productsData.items.length,
             itemBuilder: (_, i) => Column(
               children: [
