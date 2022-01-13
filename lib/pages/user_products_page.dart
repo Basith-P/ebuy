@@ -1,3 +1,4 @@
+import 'package:ebuy/provider/model_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +9,10 @@ import '../widgets/left_drawer.dart';
 
 class UserProductsPage extends StatelessWidget {
   const UserProductsPage({Key? key}) : super(key: key);
+
+  Future<void> _refreshProds(BuildContext context) async {
+    await context.read<Products>().fetchAndSetProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +34,23 @@ class UserProductsPage extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: productsData.items.length,
-          itemBuilder: (_, i) => Column(
-            children: [
-              UserProductItem(
-                productsData.items[i].id,
-                productsData.items[i].title,
-                productsData.items[i].imgURL,
-              ),
-              const Divider(),
-            ],
+      body: RefreshIndicator(
+        onRefresh: () => _refreshProds(context),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemCount: productsData.items.length,
+            itemBuilder: (_, i) => Column(
+              children: [
+                UserProductItem(
+                  productsData.items[i].id,
+                  productsData.items[i].title,
+                  productsData.items[i].imgURL,
+                ),
+                const Divider(),
+              ],
+            ),
           ),
         ),
       ),
