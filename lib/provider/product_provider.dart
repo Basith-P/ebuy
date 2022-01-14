@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'model_product.dart';
+import '../models/http-exception_modal.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
@@ -148,9 +149,19 @@ class Products with ChangeNotifier {
     }
   }
 
-  void updateProduct(String id, Product newProd) {
+  Future<void> updateProduct(String id, Product newProd) async {
     final prodIndex = _items.indexWhere((element) => element.id == id);
     if (prodIndex >= 0) {
+      final url = 'https://ebuy-007-default-rtdb.firebaseio.com/products/$id.json';
+      await http.patch(
+        Uri.parse(url),
+        body: jsonEncode({
+          'title': newProd.title,
+          'desc': newProd.desc,
+          'price': newProd.price,
+          'imgUrl': newProd.imgURL,
+        }),
+      );
       _items[prodIndex] = newProd;
       notifyListeners();
     } else {
@@ -159,6 +170,16 @@ class Products with ChangeNotifier {
   }
 
   void deleteProd(String id) {
+    final url = 'https://ebuy-007-default-rtdb.firebaseio.com/products/$id.json';
+    final existingProdIndex = _items.indexWhere((prod) => prod.id == id);
+    var existingProd = _items[existingProdIndex];
+    http.delete(Uri.parse(url)).then((response) {
+      if (response.statusCode >= 400) throw HttpException('Could not delete product');
+      existingProd.dispose();
+    }).catchError((_) {
+      _items.insert(existingProdIndex, existingProd);
+      notifyListeners();
+    });
     _items.removeWhere((element) => element.id == id);
     notifyListeners();
   }
