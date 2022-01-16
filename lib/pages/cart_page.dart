@@ -58,22 +58,7 @@ class CartPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  TextButton(
-                    onPressed: () {
-                      Provider.of<Orders>(context, listen: false).addOrder(
-                        cart.items.values.toList(),
-                        cart.totalAmount,
-                      );
-                      cart.clear();
-                    },
-                    child: const Text(
-                      'Place order',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
+                  OrderButton(cart: cart),
                 ],
               ),
             ),
@@ -95,6 +80,66 @@ class CartPage extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+  const OrderButton({
+    Key? key,
+    required this.cart,
+  }) : super(key: key);
+
+  final Cart cart;
+
+  @override
+  State<OrderButton> createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: (widget.cart.totalAmount == 0 || _isLoading)
+          ? null
+          : () async {
+              setState(() {
+                _isLoading = true;
+              });
+              try {
+                await context.read<Orders>().addOrder(
+                      widget.cart.items.values.toList(),
+                      widget.cart.totalAmount,
+                    );
+                setState(() {
+                  _isLoading = false;
+                });
+                widget.cart.clear();
+              } catch (e) {
+                print(e);
+              }
+            },
+      child: _isLoading
+          ? const SizedBox(
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+              ),
+              height: 20,
+              width: 20,
+            )
+          : const Text(
+              'Place order',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        shape: const StadiumBorder(),
       ),
     );
   }

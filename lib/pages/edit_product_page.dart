@@ -6,7 +6,7 @@ import '../provider/product_provider.dart';
 
 class EditProductPage extends StatefulWidget {
   final String data;
-  EditProductPage(this.data, {Key? key}) : super(key: key);
+  const EditProductPage(this.data, {Key? key}) : super(key: key);
   @override
   _EditProductPageState createState() => _EditProductPageState();
 }

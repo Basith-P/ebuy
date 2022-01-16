@@ -24,7 +24,7 @@ class Product with ChangeNotifier {
     isFav = !isFav;
     notifyListeners();
 
-    final url = 'https://ebuy-007-default-rtdb.firebaseio.com/products/$id.';
+    final url = 'https://ebuy-007-default-rtdb.firebaseio.com/products/$id.json';
     try {
       final response = await http.patch(
         Uri.parse(url),

@@ -43,7 +43,6 @@ class UserProductItem extends StatelessWidget {
                   scaffoldMessenger.showSnackBar(
                     const SnackBar(
                       content: Text('Couldn\'t delete the item!'),
-                      behavior: SnackBarBehavior.floating,
                     ),
                   );
                 }

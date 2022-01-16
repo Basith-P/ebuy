@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'model_product.dart';
-import '../models/http-exception_modal.dart';
+import '../models/http_exception_modal.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
