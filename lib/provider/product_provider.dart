@@ -100,7 +100,9 @@ class Products with ChangeNotifier {
     const url = 'https://ebuy-007-default-rtdb.firebaseio.com/products.json';
     try {
       final response = await http.get(Uri.parse(url));
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      var extractedData = {};
+      extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData.isEmpty) return;
       final List<Product> loadedProds = [];
       extractedData.forEach((prodId, prodData) {
         loadedProds.insert(

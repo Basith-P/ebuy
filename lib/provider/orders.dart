@@ -26,6 +26,34 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
+  Future<void> fetchAndSetOrders() async {
+    const url = 'https://ebuy-007-default-rtdb.firebaseio.com/orders.json';
+    final response = await http.get(Uri.parse(url));
+    final List<OrderItem> _loadedOrders = [];
+    var extractedData = {};
+    extractedData = jsonDecode(response.body) as Map<String, dynamic>;
+    if (extractedData.isEmpty) return;
+
+    extractedData.forEach((orderId, orderData) {
+      _loadedOrders.add(OrderItem(
+        id: orderId,
+        amount: orderData['amount'],
+        dateTime: DateTime.parse(orderData['dateTime']),
+        products: (orderData['products'] as List<dynamic>)
+            .map((e) => CartItem(
+                  id: e['id'],
+                  title: e['title'],
+                  quantity: e['quantity'],
+                  price: e['price'],
+                  imgUrl: e['imgUrl'],
+                ))
+            .toList(),
+      ));
+    });
+    _orders = _loadedOrders;
+    notifyListeners();
+  }
+
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     const url = 'https://ebuy-007-default-rtdb.firebaseio.com/orders.json';
     final timeStamp = DateTime.now();
@@ -36,9 +64,11 @@ class Orders with ChangeNotifier {
         'dateTime': timeStamp.toIso8601String(),
         'products': cartProducts
             .map((e) => {
+                  'id': e.id,
                   'title': e.title,
                   'quantity': e.quantity,
                   'price': e.price,
+                  'imgUrl': e.imgUrl,
                 })
             .toList(),
       }),
