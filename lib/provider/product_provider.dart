@@ -142,7 +142,7 @@ class Products with ChangeNotifier {
         desc: product.desc,
         imgURL: product.imgURL,
       );
-      _items.add(newProduct);
+      _items.insert(0, newProduct);
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -169,18 +169,21 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProd(String id) {
+  Future<void> deleteProd(String id) async {
     final url = 'https://ebuy-007-default-rtdb.firebaseio.com/products/$id.json';
     final existingProdIndex = _items.indexWhere((prod) => prod.id == id);
     var existingProd = _items[existingProdIndex];
-    http.delete(Uri.parse(url)).then((response) {
-      if (response.statusCode >= 400) throw HttpException('Could not delete product');
-      existingProd.dispose();
-    }).catchError((_) {
-      _items.insert(existingProdIndex, existingProd);
-      notifyListeners();
-    });
+
     _items.removeWhere((element) => element.id == id);
     notifyListeners();
+
+    final response = await http.delete(Uri.parse(url));
+    if (response.statusCode >= 400) {
+      _items.insert(existingProdIndex, existingProd);
+      notifyListeners();
+      throw HttpException('Could not delete product');
+    }
+
+    existingProd.dispose();
   }
 }
