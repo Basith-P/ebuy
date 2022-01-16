@@ -50,7 +50,7 @@ class Orders with ChangeNotifier {
             .toList(),
       ));
     });
-    _orders = _loadedOrders;
+    _orders = _loadedOrders.reversed.toList();
     notifyListeners();
   }
 
